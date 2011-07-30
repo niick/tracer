@@ -12,11 +12,12 @@
 
 #import "AppSpecificValues.h"
 #import "GameCenterManager.h"
+#import "JMCCustomDataSource.h"
 
 @class Facebook;
 @class GameCenterManager;
 
-@interface The_Race_AppAppDelegate : NSObject <UIApplicationDelegate, GameCenterManagerDelegate> 
+@interface The_Race_AppAppDelegate : NSObject <UIApplicationDelegate, GameCenterManagerDelegate, JMCCustomDataSource> 
 {
     UIWindow*               window;
     Facebook*               faceBookApi;

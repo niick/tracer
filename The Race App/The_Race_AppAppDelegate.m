@@ -79,9 +79,14 @@
 	self.window.rootViewController = raceTrackNavigationController;
 	[self.window makeKeyAndVisible];
     
-    [[JMC instance] configureJiraConnect:@"http://localhost:2990/jira/" customDataSource:nil];
+    [[JMC instance] configureJiraConnect:@"http://connect.onjira.com" customDataSource:self];
     
     return YES;
+}
+
+-(NSString*)project 
+{
+    return @"The Race App";
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
