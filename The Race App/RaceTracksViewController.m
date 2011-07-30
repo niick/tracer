@@ -13,6 +13,7 @@
 #import "Track.h"
 #import "MBProgressHUD.h"
 #import "TrackCreatorViewController.h"
+#import "JMC.h"
 
 
 @implementation RaceTracksViewController
@@ -115,6 +116,24 @@
     [api setDelegate:self];
     [hud showWhileExecuting:@selector(getTracksFromAPI) onTarget:self withObject:nil animated:YES];
     
+
+    self.navigationItem.leftBarButtonItem =
+        [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                       target:self
+                                                       action:@selector(showFeedback)] autorelease];
+    
+    
+}
+
+
+-(void) showFeedback
+{
+    [self presentModalViewController:[[JMC instance] viewController] animated:YES];
+}
+
+-(void) showPastFeedback
+{
+    [self presentModalViewController:[[JMC instance] issuesViewController] animated:YES];
 }
 
 
@@ -244,6 +263,52 @@
 {
     [api getTracksAsynchronousAround:@"Amsterdam"];
 }
+
+#pragma mark JCO
+
+// allow shake gesture to trigger Feedback
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self becomeFirstResponder];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self resignFirstResponder];
+}
+
+- (IBAction)triggerFeedback
+{
+    UIViewController *controller = [[JMC instance] viewController];
+    
+    [self presentModalViewController:controller animated:YES];
+}
+
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    NSLog(@"motion began!");
+    [self triggerFeedback];
+}
+
+
+- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    
+}
+
+#pragma end
+
 
 
 @end
